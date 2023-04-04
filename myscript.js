@@ -12,10 +12,11 @@ function clipboard() {
 
 //Generating Everything Seperately to avoid similar character (HTML Charset)
 // You can refer to https://www.w3schools.com/html/html_charset.asp
-// Special (33-47)
 // Number (48-57)
 // Uppercase (65-90)
 // Lowercase (97-122)
+// For Special Characters we will be using an Array Set (Cuz it is btter that way)
+
 let random = '';
 function generate_num() {
     random = Math.floor(Math.random() * 10); // Random from (0-9) 10 in Total
@@ -23,19 +24,21 @@ function generate_num() {
 }
 
 function generate_lowerclass() {
-    random = Math.floor(Math.random() * 27); // Random from (0-25) 26 in Total
+    random = Math.floor(Math.random() * 26); // Random from (0-25) 26 in Total
     return String.fromCharCode(parseInt(random + 97));
 }
 
 function generate_upperclass() {
-    random = Math.floor(Math.random() * 27); //Random from (0-25) 26 in Total
+    random = Math.floor(Math.random() * 26); //Random from (0-25) 26 in Total
     return String.fromCharCode(parseInt(random + 65));
 }
 
 function generate_special() {
-    random = Math.floor(Math.random() * 18); // Random from (0-17) 18 in Total
-    console.log(random);
-    return String.fromCharCode(parseInt(random + 33));
+    const select = ['!','@','#','$','%','^','&','*','(',')',
+                    '-','=','_','+','/','[',']','{','}',';',
+                    ':','"','<','>','.','?','/','|','\'','\\']
+    random = Math.floor(Math.random() * 30); // Random from (0-30) 31 in Total
+    return select[random];
 }
  
 function generate() {
