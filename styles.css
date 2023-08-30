@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Open+Sans:wght@600&family=Raleway:wght@300&display=swap');
+
+
+h1 {
+    font-family: 'Black Ops One', cursive;
+}
+
+.text-outline {
+    color: transparent;
+    text-stroke: 2px black;
+    transition-duration: 500ms;
+    -webkit-text-stroke: 2px black;
+    text-shadow: 5px 5px 10px lightgreen;
+}
