@@ -11,18 +11,13 @@
     <script src="src/script.js" async></script>
 </head>
 
-<body onload="defaultColor()" >
+<body>
     <ul class="color-pallete">
-        <li id="#ff4848" onclick="changeAccent('#ff4848')"></li>
-        <li id="#60ff60" onclick="changeAccent('#60ff60')"></li>
-        <li id="#5776ff" onclick="changeAccent('#5776ff')"></li>
-        <li id="#B074E9" onclick="changeAccent('#B074E9')"></li>
-        <li id="#45FFCA" onclick="changeAccent('#45FFCA')"></li>
-        <li id="#AAC8A7" onclick="changeAccent('#AAC8A7')"></li>
+        <!-- Adding them Dynamically -->
     </ul>
     <header>
         <h1>
-            <span class="head">
+            <span class="heading">
                 Password
             </span>
             <span class="text-outline">
@@ -32,50 +27,50 @@
     </header>
     <div class="container">
         <aside>
-            <input type="text" name="password" id="password" placeholder="Your Generated Password Here">
-            <div class="btn-container">
-                <button class="btn" onclick="clipboard()">
+            <input type="text" name="Generated Password" id="passwordInput" placeholder="Your Generated Password Here">
+            <div class="button-container">
+                <button class="btn" id="clipboardButton">
                     Copy
                 </button>
-                <button class="btn" onclick="generate()">
+                <button class="btn" id="generateButton">
                     Generate
                 </button>
-                <button class="btn" type="reset" onclick="reset()">
+                <button class="btn" id="resetButton">
                     Reset
                 </button>
             </div>
         </aside>
         <div class="line"></div>
         <div class="options-container">
-            <div class="length-container">
+            <div class="lengthInput-container">
                 <label>
                     Password Length [(6-12) characters could be a good practice]
                 </label>
-                <div class="length">
-                    <button class="btn" onclick="decrement()">
+                <div class="lengthInput">
+                    <button class="btn" id="decrementButton">
                         &#45;
                     </button>
-                    <input type="number" name="length" id="length" min=6 max=16 value=6>
-                    <button class="btn" onclick="increment()">
+                    <input type="number" name="Input Length for Password" id="lengthInput" min=6 max=16 value=6>
+                    <button class="btn" id="incrementButton">
                         &#43;
                     </button>
                 </div>
             </div>
             <label>
                 Include Upercase Letters from (A-Z)
-                <input class="checkbox" type="checkbox" name="checkbox" id="uppercase" checked>
+                <input type="checkbox" name="Checkbox for Uppercase" id="uppercaseCheckbox" checked>
             </label>
             <label>
                 Include Lowercase Letters from (a-z)
-                <input class="checkbox" type="checkbox" name="checkbox" id="lowercase" checked>
+                <input type="checkbox" name="Checkbox for Lowercase" id="lowercaseCheckbox" checked>
             </label>
             <label>
                 Include Numbers (0-9)
-                <input class="checkbox" type="checkbox" name="checkbox" id="number" checked>
+                <input type="checkbox" name="Checkbox for Number" id="numberCheckbox" checked>
             </label>
             <label>
                 Include Special Characters: (!@#$)
-                <input class="checkbox" type="checkbox" name="checkbox" id="special" checked>
+                <input type="checkbox" name="Checkbox for Special Characters" id="specialCheckbox" checked>
             </label>
         </div>
     </div>

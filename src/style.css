@@ -6,18 +6,23 @@
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
+  transition-duration: 250ms;
 }
 
 body {
   margin: 0;
+  accent-color: var(--accent);
 }
 
 :root {
-  --accent: #ff4848;
   --dark: #708090;
   --light: #ffffff;
   --black: #000000;
-  --text-accent: #3aa6b9;
+  --accent: #F31559;
+}
+
+span {
+  display: inline-block;
 }
 
 input::selection {
@@ -45,6 +50,10 @@ input[type="checkbox"] {
   }
 }
 
+input[type="checkbox"]:hover {
+  transform: scale(2,2);
+}
+
 input:active,
 input:focus {
   outline: none;
@@ -59,15 +68,14 @@ input[type="number"] {
   color: var(--black);
   &:active,
   &:focus {
-    /* color: var(--accent); */
     box-shadow: 0 0 40px var(--accent);
   }
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
   margin: 0;
+  -webkit-appearance: none;
 }
 
 label {
@@ -80,18 +88,18 @@ label {
 
 .container {
   display: grid;
-  grid-template-columns: auto auto auto;
   font-family: "Poppins", sans-serif;
+  grid-template-columns: auto auto auto;
 }
 
 /* Color Pallete */
 
 .color-pallete {
-  display: flex;
-  gap: 10px;
-  position: absolute;
-  float: right;
   right: 0;
+  gap: 10px;
+  float: right;
+  display: flex;
+  position: absolute;
   margin-right: 30px;
   list-style-type: none;
 }
@@ -108,77 +116,77 @@ label {
 
 /* Header */
 
-.head {
-  background-color: var(--accent);
-  padding-right: 5px;
-  padding-left: 40px;
+.heading {
   border-radius: 10px;
+  background-color: var(--accent);
 }
 
 header {
   display: flex;
-  justify-content: center;
   font-size: 3rem;
+  user-select: none;
   text-align: center;
   word-wrap: break-word;
-  user-select: none;
+  justify-content: center;
   font-family: "Archivo Black", sans-serif;
+}
+
+header,
+.text-outline {
+  -webkit-text-stroke: 2px var(--black);
 }
 
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 1px var(--black);
   text-shadow: 1px 1px 10px var(--accent);
 }
 
 /* aside */
 
 aside {
-  padding: 10px 50px;
-  margin: 0 50px;
   display: flex;
+  margin: 0 50px;
+  padding: 10px 50px;
   flex-direction: column;
   justify-content: center;
 }
 
-#password {
+#passwordInput {
   width: 100%;
   font-size: 1rem;
   font-family: "Montserrat", sans-serif;
 }
 
-.btn-container {
-  padding: 50px 0;
+.button-container {
   display: grid;
+  padding: 50px 0;
   column-gap: 10px;
   grid-template-columns: auto auto auto;
 }
 
-.btn {
-  /* border-radius: 10px; */
+button {
   padding: 5px 10px;
-  transition-duration: 500ms;
   user-select: none;
   background: var(--accent);
-  font-family: "Poppins", sans-serif;
   border: 1px solid var(--accent);
+  font-family: "Poppins", sans-serif;
   border-bottom: 1px solid var(--accent);
   &:hover {
     box-shadow: 0 0 20px var(--accent);
   }
 }
 
-.btn-container > .btn:nth-child(1) {
+.button-container > button:nth-child(1) {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
 
-.btn-container > .btn:nth-child(2) {
+.button-container > button:nth-child(2) {
   border-top-color: var(--accent);
   border-bottom-color: var(--accent);
 }
 
-.btn-container > .btn:nth-child(3) {
+.button-container > button:nth-child(3) {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -190,42 +198,42 @@ canvas {
 /* Line */
 
 .line {
-  background-color: var(--black);
-  height: 100%;
   width: 2px;
+  height: 100%;
+  background-color: var(--black);
 }
 
 /* Options Container */
 
 .options-container {
-  display: flex;
-  flex-direction: column;
   gap: 20px;
+  display: flex;
   padding: 10px 50px;
+  flex-direction: column;
   justify-content: center;
 }
 
-.length-container {
+.lengthInput-container {
+  gap: 30px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 30px;
 }
 
-.length {
+.lengthInput {
+  gap: 8px;
   display: flex;
   flex-direction: row;
-  gap: 8px;
   justify-content: space-around;
 }
 
-.length > .btn {
-  border: 1px solid black;
+.lengthInput > button {
   font-weight: bold;
   border-radius: 10px;
+  border: 1px solid black;
 }
 
-#length {
+#lengthInput {
   padding: 4px 0;
 }
 

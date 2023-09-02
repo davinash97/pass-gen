@@ -1,33 +1,63 @@
 // Main Password Related Codes
-let password = document.getElementById("password");
-let number = document.getElementById("number");
-let lowercase = document.getElementById("lowercase");
-let uppercase = document.getElementById("uppercase");
-let special = document.getElementById("special");
-let length = document.getElementById("length");
-let red = document.getElementById("red");
-let green = document.getElementById("green");
-let blue = document.getElementById("blue");
-let random;
+let passwordInput = document.getElementById("passwordInput");
+let uppercaseCheckbox = document.getElementById("uppercaseCheckbox");
+let lowercaseCheckbox = document.getElementById("lowercaseCheckbox");
+let numberCheckbox = document.getElementById("numberCheckbox");
+let specialCheckbox = document.getElementById("specialCheckbox");
+let lengthInput = document.getElementById("lengthInput");
 
+// Buttons
+// Main Buttons
+const generateButton = document.getElementById("generateButton");
+const clipboardButton = document.getElementById("clipboardButton");
+const resetButton = document.getElementById("resetButton");
 
-function reset() {
-    password.value = "";
-    length.value = 6;
-    number.checked = true;
-    lowercase.checked = true;
-    uppercase.checked = true;
-    special.checked = true;
-}
+// Increment and Decrement buttons
+const incrementButton = document.getElementById("incrementButton");
+const decrementButton = document.getElementById("decrementButton");
 
-function clipboard() {
-    if(password.value === "") {
-        window.alert("You Need to Generate Password First");
-    } else {
-        password.select();
-        password.setSelectionRange(0, 99999); // For mobile devices
-        navigator.clipboard.writeText(password.value);
+// Functions
+
+let resetEverything = () => {
+  passwordInput.value = "";
+  lengthInput.value = 6;
+  numberCheckbox.checked = true;
+  lowercaseCheckbox.checked = true;
+  uppercaseCheckbox.checked = true;
+  specialCheckbox.checked = true;
+  event.preventDefault();
+};
+
+const copyToClipboard = (text) => {
+  if (!document.queryCommandSupported("copy")) {
+    // Clipboard API not supported, provide fallback or message.
+    window.alert("Clipboard API not supported.");
+    return;
+  }
+
+  if (text === "") {
+    // Inform the user that there's nothing to copy.
+    // You can also show a message in the UI.
+    window.alert("Nothing to copy.");
+    return;
+  }
+
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed";
+  document.body.appendChild(textArea);
+  textArea.select();
+
+  try {
+    const successful = document.execCommand("copy");
+    if (!successful) {
+      window.alert("Copying to clipboard failed.");
     }
+  } catch (err) {
+    window.alert("Copying to clipboard failed with error:", err);
+  } finally {
+    document.body.removeChild(textArea);
+  }
 }
 
 //Generating Everything Seperately to avoid similar character (HTML Charset)
@@ -37,107 +67,154 @@ function clipboard() {
 // Lowercase (97-122)
 // For Special Characters we will be using an Array Set (Cuz it is btter that way)
 
+// Generate a random uppercase letter (A-Z)
+let generateUpperClass = () => String.fromCharCode(Math.floor(Math.random() * 26) + 65);
 
-function generate_num() {
-    random = Math.floor(Math.random() * 10); // Random from (0-9) 10 in Total
-    return String.fromCharCode(parseInt(random + 48));
-}
+// Generate a random lowercase letter (a-z)
+let generateLowerClass = () => String.fromCharCode(Math.floor(Math.random() * 26) + 97);
 
-function generate_lowerclass() {
-    random = Math.floor(Math.random() * 26); // Random from (0-25) 26 in Total
-    return String.fromCharCode(parseInt(random + 97));
-}
+// Generate a random number (0-9)
+let generateNumber = () => String.fromCharCode(Math.floor(Math.random() * 10) + 48);
 
-function generate_upperclass() {
-    random = Math.floor(Math.random() * 26); //Random from (0-25) 26 in Total
-    return String.fromCharCode(parseInt(random + 65));
-}
+// Generate a random special character
+let generateSpecialChars = () => {
+  const specialChars = "!@#$%^&*()-=_+[]{};:\"<>./?|'\\";
+  return specialChars[Math.floor(Math.random() * specialChars.length)];
+};
 
-function generate_special() {
-    const select = ['!','@','#','$','%','^','&','*','(',')',
-                    '-','=','_','+','/','[',']','{','}',';',
-                    ':','"','<','>','.','?','/','|','\'','\\']
-    random = Math.floor(Math.random() * 30); // Random from (0-30) 31 in Total
-    return select[random];
-}
- 
-function generate() {
-    // To check if they are checked
-    if(uppercase.checked || lowercase.checked || number.checked || special.checked) {
-        let result = '';
-        password.value = result;
 
-        for(let i=0; i<length.value; i++) {
+let generatePassword = () => {
+  if (
+    !uppercaseCheckbox.checked &&
+    !lowercaseCheckbox.checked &&
+    !numberCheckbox.checked &&
+    !specialCheckbox.checked
+  ) {
+    window.alert("Make sure one of them is checked At least");
+    return;
+  }
 
-            if(uppercase.checked) { // returns True if Uppercase is checked
-                result += generate_upperclass();
-            }
-            if(lowercase.checked) { // returns True if Lowercase is checked
-                result += generate_lowerclass();
-            }
-            if(number.checked) { // returns True if Number is checked
-                result += generate_num();
-            }
-            if(special.checked) { // returns True if Special Character is checked
-                result += generate_special();
-            }
-        }
+  const characterSets = {
+    uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    lowercase: "abcdefghijklmnopqrstuvwxyz",
+    number: "0123456789",
+    special: "!@#$%^&*()-=_+[]{};:\"<>./?|'\\",
+  };
 
-        // Result
-        password.value = result.slice(0,length.value);
-    } else {
-        window.alert("Make sure one of them is checked Atleast");
-    }
-}
+  const selectedSets = Object.keys(characterSets).filter(
+    (set) => document.getElementById(set + "Checkbox").checked
+  );
+
+  if (selectedSets.length === 0) {
+    window.alert("Make sure one of them is checked At least");
+    return;
+  }
+
+  let result = "";
+  const selectedLength = parseInt(lengthInput.value);
+
+  while (result.length < selectedLength) {
+    const randomSet =
+      characterSets[selectedSets[Math.floor(Math.random() * selectedSets.length)]];
+    const randomChar = randomSet[Math.floor(Math.random() * randomSet.length)];
+    result += randomChar;
+  }
+
+  passwordInput.value = result;
+};
 
 // Increment - Decrement
 
-function increment() {
-    length.value = ++length.value;
-    if(length.value > 12) {
-        window.alert("Number greater than 12 is hard to remember. If you still want to proceed, you can type it manually");
-        length.value = 12;
-    }
-}
+const adjustValue = (increment) => {
+  const value = parseInt(lengthInput.value);
+  const newValue = increment ? value + 1 : value - 1;
 
-let decrement = () => {
-    length.value = --length.value;
-    if(length.value < 6) {
-        window.alert("Minimum suggested length of the Password is 6.");
-        length.value = 6;
-    }
-}
+  if (newValue < 6) {
+    window.alert("Minimum suggested length of the Password is 6.");
+    lengthInput.value = 6;
+  } else if (newValue > 12) {
+    window.alert(
+      "Number greater than 12 is hard to remember. If you still want to proceed, you can type it manually"
+    );
+    lengthInput.value = 12;
+  } else {
+    lengthInput.value = newValue;
+  }
+};
 
 // Accent
+const colorOptions = [
+  { name: "red", value: "#F31559" },
+  { name: "orange", value: "#F86F03" },
+  { name: "green", value: "#7FB77E" },
+  { name: "cyan", value: "#7FBCD2" },
+  { name: "yellow", value: "#FBF0B2" },
+  { name: "purple", value: "#A084E8" },
+  { name: "blue", value: "#5776ff" },
+];
 
+const ul = document.querySelector("ul");
 
-let defaultColor = () => {
-    let get = localStorage.getItem("accent");
-    let elements = document.querySelectorAll("li");
-    elements.forEach(element => {
-        document.getElementById(element.id).style.background = element.id;
-    });
-    if(get === null) {
-        let color = "#ff4848";
-        localStorage.setItem("accent", color);
-        document.documentElement.style.cssText = "--accent: "+ color;
-        document.documentElement.style.accentColor = color;
-    } else {
-        document.documentElement.style.cssText = "--accent:" + get;
-        document.documentElement.style.accentColor = get;
-    }
+ul.addEventListener("click", function (event) {
+  const clickedLi = event.target.closest("li");
+  if (!clickedLi) return; // Clicked outside of a <li>
+
+  const colorName = clickedLi.getAttribute("data-color");
+  if (colorName) {
+    changeAccent(colorName);
+  }
+});
+
+function populateColorOptions() {
+  colorOptions.forEach((color) => {
+    const li = document.createElement("li");
+    li.style.backgroundColor = color.value;
+    li.setAttribute("data-color", color.name);
+    ul.appendChild(li);
+  });
 }
 
-let changeAccent = (args) => {
-    document.documentElement.style.cssText = "--accent:" + args;
-    document.documentElement.style.accentColor = args;
-    localStorage.setItem("accent", args);
+function changeAccent(color) {
+  document.documentElement.style.cssText = "--accent:" + color;
+  localStorage.setItem("accent", color);
 }
 
-// Day/Night Mode
-
-if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-    // document.body.style.background = 'var(--light)';
-} else {
-    document.body.style.background = 'var(--dark)';
+function defaultAccent() {
+  const getAccent = localStorage.getItem("accent");
+  if (getAccent !== null) {
+    changeAccent(getAccent);
+  }
 }
+
+// Populate color options on page load
+populateColorOptions();
+defaultAccent();
+
+
+// Auto Day/Night Mode
+
+const prefersLightScheme = window.matchMedia("(prefers-color-scheme: light)").matches;
+document.body.style.background = prefersLightScheme ? "var(--light)" : "var(--dark)";
+document.body.style.color = prefersLightScheme ? "var(--black)" : "var(--light)";
+
+// Event Listeners for Buttons and Window Load
+
+// Window Load
+window.addEventListener("load", defaultAccent);
+
+// Main Buttons
+
+generateButton.addEventListener("click", generatePassword);
+resetButton.addEventListener("click", resetEverything);
+clipboardButton.addEventListener("click", () => {
+  copyToClipboard(passwordInput.value);
+});
+
+// Increment Decrement Buttons
+
+incrementButton.addEventListener("click", () => {
+  adjustValue(true);
+});
+decrementButton.addEventListener("click", () => {
+  adjustValue(false);
+});
