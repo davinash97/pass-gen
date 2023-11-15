@@ -28,7 +28,7 @@ let resetEverything = () => {
     event.preventDefault();
 };
 
-const copyToClipboard = (text) => {
+const copyToClipboard = text => {
     if (!document.queryCommandSupported("copy")) {
         // Clipboard API not supported, provide fallback or message.
         window.alert("Clipboard API not supported.");
@@ -60,32 +60,7 @@ const copyToClipboard = (text) => {
     }
 };
 
-//Generating Everything Seperately to avoid similar character (HTML Charset)
-// You can refer to https://www.w3schools.com/html/html_charset.asp
-// Number (48-57)
-// Uppercase (65-90)
-// Lowercase (97-122)
-// For Special Characters we will be using an Array Set (Cuz it is btter that way)
-
-// Generate a random uppercase letter (A-Z)
-let generateUpperClass = () =>
-    String.fromCharCode(Math.floor(Math.random() * 26) + 65);
-
-// Generate a random lowercase letter (a-z)
-let generateLowerClass = () =>
-    String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-
-// Generate a random number (0-9)
-let generateNumber = () =>
-    String.fromCharCode(Math.floor(Math.random() * 10) + 48);
-
-// Generate a random special character
-let generateSpecialChars = () => {
-    const specialChars = "!@#$%^&*()-=_+[]{};:\"<>./?|'\\";
-    return specialChars[Math.floor(Math.random() * specialChars.length)];
-};
-
-let generatePassword = () => {
+function generatePassword() {
     if (
         !uppercaseCheckbox.checked &&
         !lowercaseCheckbox.checked &&
@@ -100,11 +75,11 @@ let generatePassword = () => {
         uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         lowercase: "abcdefghijklmnopqrstuvwxyz",
         number: "0123456789",
-        special: "!@#$%^&*()-=_+[]{};:\"<>./?|'\\",
+        special: "@#$%&~<>(){}[];:/?|/",
     };
 
     const selectedSets = Object.keys(characterSets).filter(
-        (set) => document.getElementById(set + "Checkbox").checked
+        set => document.getElementById(set + "Checkbox").checked
     );
 
     if (selectedSets.length === 0) {
@@ -126,26 +101,7 @@ let generatePassword = () => {
     }
 
     passwordInput.value = result;
-};
-
-// Increment - Decrement
-
-const adjustValue = (prop) => {
-    const value = parseInt(lengthInput.value);
-    const newValue = prop ? value + 1 : value - 1;
-
-    if (newValue < 6) {
-        window.alert("Minimum suggested length of the Password is 6.");
-        lengthInput.value = 6;
-    } else if (newValue > 12) {
-        window.alert(
-            "Number greater than 12 is hard to remember. If you still want to proceed, you can type it manually"
-        );
-        lengthInput.value = 12;
-    } else {
-        lengthInput.value = newValue;
-    }
-};
+}
 
 // Accent
 const colorOptions = [
@@ -160,7 +116,7 @@ const colorOptions = [
 
 const ul = document.querySelector("ul");
 
-ul.addEventListener("click", function (event) {
+ul.addEventListener("click", event => {
     const clickedLi = event.target.closest("li");
     if (!clickedLi) return; // Clicked outside of a <li>
 
@@ -169,7 +125,7 @@ ul.addEventListener("click", function (event) {
 });
 
 function populateColorOptions() {
-    colorOptions.forEach((color) => {
+    colorOptions.forEach(color => {
         const li = document.createElement("li");
         li.style.backgroundColor = color.value;
         li.setAttribute("data-color", color.value);
@@ -177,10 +133,10 @@ function populateColorOptions() {
     });
 }
 
-function changeAccent(color) {
+const changeAccent = color => {
     document.documentElement.style.cssText = "--accent:" + color;
     localStorage.setItem("accent", color);
-}
+};
 
 function defaultAccent() {
     const getAccent = localStorage.getItem("accent");
@@ -214,15 +170,40 @@ window.addEventListener("load", defaultAccent);
 
 generateButton.addEventListener("click", generatePassword);
 resetButton.addEventListener("click", resetEverything);
-clipboardButton.addEventListener("click", () => {
-    copyToClipboard(passwordInput.value);
-});
+clipboardButton.addEventListener("click", () => copyToClipboard(passwordInput.value));
 
-// Increment Decrement Buttons
+// Increment Decrement
 
-incrementButton.addEventListener("click", () => {
-    adjustValue(true);
-});
-decrementButton.addEventListener("click", () => {
-    adjustValue(false);
-});
+function updateAttr(a, b) {
+    if (b) {
+        a.setAttribute("disabled", b);
+    } else {
+        a.removeAttribute("disabled");
+    }
+}
+
+const adjustValue = prop => {
+    const value = parseInt(lengthInput.value);
+    const newValue = prop ? value + 1 : value - 1;
+    const min = 6,
+        max = 16;
+    if (newValue >= min && newValue <= max) {
+        if (newValue === min) {
+            updateAttr(decrementButton, true);
+            lengthInput.value = newValue;
+        } else if (newValue > min) {
+            updateAttr(decrementButton);
+        }
+        if (newValue === max) {
+            updateAttr(incrementButton, true);
+            lengthInput.value = newValue;
+        } else if (newValue < max) {
+            updateAttr(incrementButton);
+        }
+
+        lengthInput.value = newValue;
+    }
+};
+
+incrementButton.addEventListener("click", () => adjustValue(true));
+decrementButton.addEventListener("click", () => adjustValue(false));
