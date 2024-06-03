@@ -1,7 +1,7 @@
 @media all and (max-width: 768px) {
   header {
     display: flex;
-    margin-top: 20px;
+    margin-top: 40px;
     font-size: 1.5rem;
     align-items: center;
     justify-content: center;
@@ -14,9 +14,14 @@
     padding: 0 20px;
   }
   .container {
+    margin-top: 20px;
+    justify-content: space-between;
     display: flex;
     padding: 0 10px;
     flex-direction: column;
+  }
+  .lengthInput-container:first-child {
+    text-align: justify;
   }
   .line {
     display: none;
@@ -26,7 +31,12 @@
     width: 100%;
     padding: 2px 5px;
   }
-  .length {
+  .options-container {
+    padding: 50px 10px;
+  }
+  .lengthInput {
+    gap: 10px;
+    justify-content: space-evenly;
     flex-direction: column;
   }
 }

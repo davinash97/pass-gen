@@ -12,9 +12,8 @@ const generateButton = document.getElementById("generateButton");
 const clipboardButton = document.getElementById("clipboardButton");
 const resetButton = document.getElementById("resetButton");
 
-// Increment and Decrement buttons
-const incrementButton = document.getElementById("incrementButton");
-const decrementButton = document.getElementById("decrementButton");
+// Range
+const length = document.getElementById("length");
 
 // Functions
 
@@ -172,38 +171,7 @@ generateButton.addEventListener("click", generatePassword);
 resetButton.addEventListener("click", resetEverything);
 clipboardButton.addEventListener("click", () => copyToClipboard(passwordInput.value));
 
-// Increment Decrement
-
-function updateAttr(a, b) {
-    if (b) {
-        a.setAttribute("disabled", b);
-    } else {
-        a.removeAttribute("disabled");
-    }
-}
-
-const adjustValue = prop => {
-    const value = parseInt(lengthInput.value);
-    const newValue = prop ? value + 1 : value - 1;
-    const min = 6,
-        max = 16;
-    if (newValue >= min && newValue <= max) {
-        if (newValue === min) {
-            updateAttr(decrementButton, true);
-            lengthInput.value = newValue;
-        } else if (newValue > min) {
-            updateAttr(decrementButton);
-        }
-        if (newValue === max) {
-            updateAttr(incrementButton, true);
-            lengthInput.value = newValue;
-        } else if (newValue < max) {
-            updateAttr(incrementButton);
-        }
-
-        lengthInput.value = newValue;
-    }
-};
-
-incrementButton.addEventListener("click", () => adjustValue(true));
-decrementButton.addEventListener("click", () => adjustValue(false));
+// Length range
+length.addEventListener("change", () => {
+    lengthInput.value = length.value;
+})

@@ -9,7 +9,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="sapple-touch-icon.png" />
     <link rel="stylesheet" href="src/style.css">
     <link rel="stylesheet" href="src/responsiveStyle.css">
-    <script src="src/script.js" async></script>
+    <script src="src/app.js" async></script>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
     <header>
         <h1>
             <span class="heading">
-                Password
+                <span>&#32;</span> Password <span>&#32;</span>
             </span>
             <span class="text-outline">
                 Generator
@@ -48,13 +48,8 @@
                     Password Length [(6-12) characters could be a good practice]
                 </label>
                 <div class="lengthInput">
-                    <button class="btn" id="decrementButton">
-                        &#45;
-                    </button>
-                    <input type="number" name="Input Length for Password" id="lengthInput" min=6 max=16 value=6>
-                    <button class="btn" id="incrementButton">
-                        &#43;
-                    </button>
+                    <input type="number" name="Input Length for Password" id="lengthInput" value=6>
+                    <input type="range" name="length" id="length" min="6" max="14">
                 </div>
             </div>
             <label>

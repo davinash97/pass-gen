@@ -4,6 +4,7 @@
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
+  text-rendering: geometricPrecision;
 }
 
 body {
@@ -12,7 +13,7 @@ body {
 }
 
 :root {
-  --dark: #708090;
+  --dark: #303030;
   --light: #ffffff;
   --black: #000000;
   --accent: #F31559;
@@ -31,6 +32,7 @@ button:hover,
 input[type=checkbox],
 .options-container > label {
   cursor: pointer;
+  transition: 250ms;
 }
 
 button:hover {
@@ -38,8 +40,10 @@ button:hover {
 }
 
 input[type=checkbox] {
+  transition: transform 250ms;
   transform: scale(1.5, 1.5);
 }
+
 input[type=checkbox]:checked {
   background-color: var(--accent);
 }
@@ -63,10 +67,6 @@ input[type=number] {
   text-align: center;
   border-radius: 5px;
   color: var(--black);
-}
-input[type=text]:active, input[type=text]:focus,
-input[type=number]:active,
-input[type=number]:focus {
   box-shadow: 0 0 40px var(--accent);
 }
 
@@ -84,7 +84,11 @@ label {
 
 /* Container */
 .container {
+  min-height: 50vh;
   display: grid;
+  place-items: center;
+  align-self: center;
+  justify-content: space-evenly;
   font-family: "Poppins", sans-serif;
   grid-template-columns: auto auto auto;
 }
@@ -112,6 +116,7 @@ label {
 
 /* Header */
 .heading {
+  font-weight: 500;
   border-radius: 10px;
   background-color: var(--accent);
 }
@@ -139,9 +144,11 @@ header,
 /* aside */
 aside {
   display: flex;
+  width: 100%;
   margin: 0 50px;
   padding: 10px 50px;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
@@ -152,6 +159,7 @@ aside {
 }
 
 .button-container {
+  width: 100%;
   display: grid;
   padding: 50px 0;
   column-gap: 10px;
@@ -192,7 +200,7 @@ canvas {
 /* Line */
 .line {
   width: 2px;
-  height: 100%;
+  height: 50%;
   background-color: var(--black);
 }
 
@@ -213,10 +221,10 @@ canvas {
 }
 
 .lengthInput {
-  gap: 8px;
+  gap: 5px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .lengthInput > button {
@@ -229,8 +237,6 @@ canvas {
   padding: 4px 0;
 }
 
-.increment,
-.decrement {
-  padding: 5px;
-  user-select: none;
+#length:hover {
+  cursor: pointer;
 }
